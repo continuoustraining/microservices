@@ -1,0 +1,70 @@
+swagger: "2.0"
+info:
+  description: "Notifications manangement"
+  version: "1.0.0"
+  title: "Users notifications services"
+  termsOfService: "http://swagger.io/terms/"
+  contact:
+    email: "apiteam@swagger.io"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+host: "localhost"
+basePath: "/v1"
+schemes:
+- "https"
+- "http"
+paths:
+  /notify:
+    post:
+      tags:
+      - "notification"
+      summary: "Create Notification"
+      description: "create a new notification to a user"
+      operationId: "createNotification"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Created user object"
+        required: true
+        schema:
+          $ref: "#/definitions/Notification"
+      responses:
+        default:
+          description: "successful operation"
+  /notify/sent/{id}:
+    get:
+      tags:
+      - "notification"
+      summary: "the notification has been sent"
+      description: ""
+      operationId: "isSent"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "the notification id"
+        required: true
+        type: "integer"
+      responses:
+        "200":
+          description: "successful operation"
+        "400":
+          description: "Invalid message id supplied"
+definitions:
+  Notification:
+    type: "object"
+    properties:
+      type:
+        type: "string"
+      channel:
+        type: "string"
+      to_user_id:
+        type: "integer"
+        format: "int64"
+externalDocs:
+  description: "Find out more about Swagger"
+  url: "http://swagger.io"

@@ -1,0 +1,71 @@
+swagger: "2.0"
+info:
+  description: "wishlist to cart manangement"
+  version: "1.0.0"
+  title: "Microservice test-my-secret-pw to cart"
+  termsOfService: "http://swagger.io/terms/"
+  contact:
+    email: "apiteam@swagger.io"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+host: "localhost"
+basePath: "/v1"
+schemes:
+- "https"
+- "http"
+paths:
+  /wishlist-cart/{user_id}:
+    post:
+      tags:
+      - "wishlist"
+      summary: "transfer all wishlist items to cart"
+      description: ""
+      operationId: "add2cart"
+      consumes:
+      - "multipart/form-data"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "user_id"
+        in: "path"
+        description: "the wishlist id"
+        required: true
+        type: "integer"
+      - name: "defaultQuantity"
+        in: "formData"
+        description: "the default Quantity id"
+        required: true
+        type: "integer"
+      responses:
+        "200":
+          description: "successful operation"
+  /wishlist/{id}/add:
+    post:
+      tags:
+      - "cart managment"
+      summary: "add a product to user cart from the wishlist"
+      description: ""
+      operationId: "addOneElement"
+      consumes:
+      - "multipart/form-data"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "wishlist item id"
+        required: true
+        type: "integer"
+      - name: "quantity"
+        in: "formData"
+        description: "the Quantity"
+        required: true
+        type: "integer"
+      responses:
+        "200":
+          description: "successful operation"
+      
+externalDocs:
+  description: "Find out more about Swagger"
+  url: "http://swagger.io"

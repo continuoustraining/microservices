@@ -1,0 +1,107 @@
+swagger: "2.0"
+info:
+  description: "Gestion des commentaires"
+  version: "1.0.0"
+  title: "Swagger Comments"
+  termsOfService: "http://swagger.io/terms/"
+  contact:
+    email: "apiteam@swagger.io"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+host: "localhost"
+basePath: "/v1"
+schemes:
+- "https"
+- "http"
+paths:
+  /comments/{product_id}:
+    get:
+      tags:
+      - "comments"
+      summary: "comments list for a product"
+      description: "comments list for a product"
+      operationId: "comments"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "path"
+        name: "product_id"
+        description: "product id"
+        required: true
+        type: "integer"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: array
+            items: 
+              $ref: "#/definitions/comments"
+        "400":
+          description: "Invalid user supplied"
+  /add-comment:
+    post:
+      tags:
+      - "comments"
+      summary: "add comments"
+      description: "add a comment to a product"
+      operationId: "addComment"
+      consumes:
+      - "multipart/form-data"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "body"
+        in: "body"
+        description: "comments"
+        required: true
+        schema:
+          $ref: "#/definitions/comments"
+      responses:
+        "200":
+          description: "successful operation"
+        "400":
+          description: "Invalid user supplied"
+  /remove-comment/{comment_id}:
+    delete:
+      tags:
+      - "comments"
+      summary: "add comments"
+      description: "add a comment to a product"
+      operationId: "removeComment"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "comment_id"
+        in: "path"
+        type: "string"
+        description: "comment id"
+        required: true
+      responses:
+        "200":
+          description: "successful operation"
+        "400":
+          description: "Invalid user supplied"
+definitions:
+  comments:
+    type: "object"
+    properties:
+      productId:
+        type: "integer"
+        format: "int64"
+        example: 5
+      userId:
+        type: "integer"
+        format: "int64"
+        example: 12
+      title :
+        type: "string"
+        example: "this is a comment"
+      contents :
+        type: "string"
+        example: "this product is awsome"
+      stars :
+        type: "number"
+        format: "decimal"
+        multipleOf: 0.5
+        example: 4.5

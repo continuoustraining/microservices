@@ -1,0 +1,107 @@
+swagger: "2.0"
+info:
+  description: "view counter manangement"
+  version: "1.0.0"
+  title: "Microservice view counter"
+  termsOfService: "http://swagger.io/terms/"
+  contact:
+    email: "apiteam@swagger.io"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+host: "localhost"
+basePath: "/v1"
+schemes:
+- "https"
+- "http"
+paths:
+  /view/{product_id}:
+    post:
+      tags:
+      - "product views"
+      summary: "add a view to a product"
+      description: "add a view to a product"
+      operationId: "addView"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "product_id"
+        in: "path"
+        description: "the product id"
+        required: true
+        type: "integer"
+      responses:
+        "200":
+          description: "successful operation"
+  /count/{product_id}:
+    get:
+      tags:
+      - "product views"
+      summary: "get all views"
+      description: "get product total views"
+      operationId: "getTotalViews"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "product_id"
+        in: "path"
+        description: "the product id"
+        required: true
+        type: "integer"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            properties:
+              count:
+                type: "integer"
+                description: "total aggregated views for a product"
+  /count/{product_id}/daily:
+    get:
+      tags:
+      - "aggregate product views"
+      summary: "get all views"
+      description: "get product total views"
+      operationId: "getTotalViewsDaily"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "product_id"
+        in: "path"
+        description: "the product id"
+        required: true
+        type: "integer"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            properties:
+              count:
+                type: "integer"
+                description: "total aggregated views for a product for current day"
+  /count/{product_id}/weekly:
+    get:
+      tags:
+      - "aggregate product views"
+      summary: "get all views"
+      description: "get product total views"
+      operationId: "getTotalViewsWeekly"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "product_id"
+        in: "path"
+        description: "the product id"
+        required: true
+        type: "integer"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            properties:
+              count:
+                type: "integer"
+                description: "total aggregated views for a product for current week"
+externalDocs:
+  description: "Find out more about Swagger"
+  url: "http://swagger.io"

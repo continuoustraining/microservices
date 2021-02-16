@@ -1,0 +1,88 @@
+swagger: "2.0"
+info:
+  description: "Gestion des wishlist"
+  version: "1.0.0"
+  title: "wishlist service"
+  termsOfService: "http://swagger.io/terms/"
+  contact:
+    email: "apiteam@swagger.io"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+host: "localhost"
+basePath: "/v1"
+schemes:
+- "https"
+- "http"
+paths:
+  /wishlist/{id}:
+    get:
+      tags:
+      - "wishlist"
+      summary: "list products for user wishlist"
+      description: "product list"
+      operationId: "wishlistProducts"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "path"
+        name: "id"
+        description: "user id"
+        required: true
+        type: "integer"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: array
+            items: 
+              $ref: "#/definitions/wishlist"
+        "400":
+          description: "Invalid user supplied"
+  /wishlist:
+    put:
+      tags:
+      - "wishlist"
+      summary: "edit wishlist"
+      description: "add or hide a product to user wishlist"
+      operationId: "addProduct"
+      consumes:
+      - "multipart/form-data"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "product_id"
+        in: "formData"
+        description: "product id"
+        required: true
+        type: "integer"
+      - name: "user_id"
+        in: "formData"
+        description: "user id"
+        required: true
+        type: "integer"
+      - name: "enabled"
+        in: "formData"
+        description: "entry status id"
+        required: true
+        type: "boolean"
+      responses:
+        "200":
+          description: "successful operation"
+        "400":
+          description: "Invalid user supplied"
+definitions:
+  wishlist:
+    type: "object"
+    properties:
+      productId:
+        type: "integer"
+        format: "int64"
+        example: 5
+      userId:
+        type: "integer"
+        format: "int64"
+        example: 12
+      enaled:
+        type: "boolean"
+        example: true

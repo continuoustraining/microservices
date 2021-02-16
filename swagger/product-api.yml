@@ -1,0 +1,78 @@
+swagger: "2.0"
+info:
+  description: "Product manangement"
+  version: "1.0.0"
+  title: "Product service"
+  termsOfService: "http://swagger.io/terms/"
+  contact:
+    email: "apiteam@swagger.io"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+host: "localhost"
+basePath: "/v1"
+schemes:
+- "https"
+- "http"
+paths:
+  /product/{id}:
+    post:
+      tags:
+      - "products"
+      summary: "get a product"
+      description: "get a product by id"
+      operationId: "getProductById"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "the product id"
+        required: true
+        type: "integer"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Product"
+        "400":
+          description: "Invalid product id supplied"
+  /products/{page}:
+    get:
+      tags:
+      - "product"
+      summary: "the notification has been sent"
+      description: ""
+      operationId: "isSent"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "page"
+        in: "path"
+        description: "page number"
+        required: true
+        type: "integer"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "array"
+            items: 
+              $ref: "#/definitions/Product" 
+definitions:
+  Product:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      label:
+        type: "string"
+      description:
+        type: "string"
+      price:
+        type: "number"
+        format: "float"
+externalDocs:
+  description: "Find out more about Swagger"
+  url: "http://swagger.io"

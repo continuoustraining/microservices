@@ -1,0 +1,81 @@
+swagger: "2.0"
+info:
+  description: "produits properties manangement"
+  version: "1.0.0"
+  title: "Microservice Product Properties"
+  termsOfService: "http://swagger.io/terms/"
+  contact:
+    email: "apiteam@swagger.io"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+host: "localhost"
+basePath: "/v1"
+schemes:
+- "https"
+- "http"
+paths:
+  /properties/{product_id}:
+    get:
+      tags:
+      - "product Properties"
+      summary: "get a product"
+      description: "get Product Properties by  product id"
+      operationId: "getProductPropertiesByProductId"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "product_id"
+        in: "path"
+        description: "the product id"
+        required: true
+        type: "integer"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "array"
+            items: 
+              $ref: "#/definitions/ProductProperty"
+  /properties/{product_id}/edit:
+    post:
+      tags:
+      - "product Properties"
+      summary: "Edit product properties"
+      description: ""
+      operationId: "editProductProperties"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "product_id"
+        in: "path"
+        description: "product Id"
+        required: true
+        type: "integer"
+      - name: "body"
+        in: "body"
+        schema:
+          type: "array"
+          items:
+            $ref: "#/definitions/ProductProperty"
+      responses:
+        "200":
+          description: "successful operation"
+        "400":
+          description: "Invalid message id supplied"
+definitions:
+  ProductProperty:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      label:
+        type: "string"
+      value:
+        type: "string"
+      enabled:
+        type: "boolean"
+externalDocs:
+  description: "Find out more about Swagger"
+  url: "http://swagger.io"
