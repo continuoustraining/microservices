@@ -1,7 +1,7 @@
 <?php
 
-if(isset($_GET('swagger'))) {
-  echo file_get_contents('./specs/views.yml');
+if(isset($_GET['swagger'])) {
+  echo file_get_contents('./specs/views-api.yaml');
   die();
 }
 

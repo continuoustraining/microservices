@@ -3,7 +3,10 @@ version: '3.1'
 services:
   db_server:
     image: mariadb:10.3
+    hostname: mariadb
     container_name: app_mariadb
+    networks:
+      - private
     environment:
       - MYSQL_ROOT_PASSWORD=test-my-secret-pw
       - MYSQL_DATABASE=${DB_NAME}
@@ -13,13 +16,18 @@ services:
       - /var/lib/mysql:rw,noexec,nosuid,size=300m
 
   app:
-    image: 500954975820.dkr.ecr.us-east-1.amazonaws.com/cursus-ecr-demo:47
+    image: 500954975820.dkr.ecr.us-east-1.amazonaws.com/cursus-ecr-demo:demo
     container_name: app_server
     ports:
        - 80:80
     restart: always
     links:
       - db_server
+    volumes:
+      - .:/var/www/html
+    networks:
+      - public
+      - private
     environment:
       - DB_HOST=db_server
       - DB_NAME=${DB_NAME}
@@ -32,11 +40,20 @@ services:
       environment:
        - PMA_ARBITRARY=1
       restart: always
+      networks:
+       - public
+       - private
       links:
         - db_server
       ports:
-       - 8081:80
+       - 8080:80
       volumes:
        - /sessions
       depends_on:
         - db_server
+        
+networks:
+  private:
+    driver: bridge
+  public:
+    driver: bridge
