@@ -47,6 +47,7 @@ deploy:
   environment: 
     name: production
   before_script:
+    - export PATH=$PATH:/usr/local/bin
     - sudo apt-get install -y awscli
     - aws --version
     - docker --version
