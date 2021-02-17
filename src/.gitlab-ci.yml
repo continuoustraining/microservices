@@ -29,7 +29,7 @@ build:
     - php composer.phar  install --no-dev
     - envsubst < config.php.dist > config.php
     - mkdir -p build
-    - cp ./index.php build/ && cp ./healthcheck.php build/ && cp ./Dockerfile build/ && cp -Rf ./lib build/ && cp -Rf ./ci build/ && cp -Rf ./specs build/ && cp -Rf ./vendor build/
+    - cp ./index.php build/ && cp ./config.php build/  && cp ./healthcheck.php build/ && cp ./Dockerfile build/ && cp -Rf ./lib build/ && cp -Rf ./ci build/ && cp -Rf ./specs build/ && cp -Rf ./vendor build/
   environment: 
     name: production
   artifacts:
