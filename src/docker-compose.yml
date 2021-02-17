@@ -1,0 +1,42 @@
+version: '3.1'
+
+services:
+  db_server:
+    image: mariadb:10.3
+    container_name: app_mariadb
+    environment:
+      - MYSQL_ROOT_PASSWORD=test-my-secret-pw
+      - MYSQL_DATABASE=${DB_NAME}
+      - MYSQL_USER=${DB_USER}
+      - MYSQL_PASSWORD=${DB_PASS}
+    tmpfs: 
+      - /var/lib/mysql:rw,noexec,nosuid,size=300m
+
+  app:
+    image: 500954975820.dkr.ecr.us-east-1.amazonaws.com/cursus-ecr-demo:latest
+    container_name: app_server
+    ports:
+       - 80:80
+    restart: always
+    links:
+      - db_server
+    environment:
+      - DB_HOST=db_server
+      - DB_NAME=${DB_NAME}
+      - DB_USER=${DB_USER}
+      - DB_PASS=${DB_PASS}
+
+  phpmyadmin:
+      image: phpmyadmin
+      container_name: app_phpmyadmin
+      environment:
+       - PMA_ARBITRARY=1
+      restart: always
+      links:
+        - db_server
+      ports:
+       - 8081:80
+      volumes:
+       - /sessions
+      depends_on:
+        - db_server

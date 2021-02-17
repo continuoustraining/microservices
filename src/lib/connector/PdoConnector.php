@@ -8,8 +8,8 @@ class PdoConnector {
     
     public function __construct() {
         
-        $this->connection = new PDO('mysql:host='.DB_HOST.
-        ';dbname='.DB_NAME, DB_USER, DB_PASS);
+        $this->connection = new \PDO('mysql:host='.DB_HOST.
+        ':3306;dbname='.DB_NAME, DB_USER, DB_PASS);
         
     }
     

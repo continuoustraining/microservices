@@ -1,7 +1,7 @@
 <?php
 
-include_once('../config.php');
-include_once('../vendor/autoload.php');
+include_once(__DIR__ . '/../config.php');
+include_once(__DIR__ .'/../vendor/autoload.php');
 
 $connector = new \API\Views\connector\PdoConnector();
 

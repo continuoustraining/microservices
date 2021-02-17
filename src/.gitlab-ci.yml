@@ -2,6 +2,12 @@ cache:
   paths:
     - vendor
 
+variables:
+  DOCKER_REGISTRY: 500954975820.dkr.ecr.us-east-1.amazonaws.com/cursus-ecr-demo
+  AWS_DEFAULT_REGION: us-east-1
+  APP_NAME: views-api
+  DOCKER_HOST: tcp://docker:2375
+
 stages:
   - build_stage
   - deploy_stage
@@ -38,6 +44,9 @@ deploy:
     - tags
   script:
     - ls -lart build/
+    - cd build && docker build -t $DOCKER_REGISTRY/$APP_NAME:$CI_PIPELINE_IID .
+    - aws ecr get-login-password | docker login --username AWS --password-stdin $DOCKER_REGISTRY
+    - docker push $DOCKER_REGISTRY/$APP_NAME:$CI_PIPELINE_IID
   environment: 
     name: production
   
