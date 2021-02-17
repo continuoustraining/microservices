@@ -1,12 +1,12 @@
 cache:
   paths:
     - vendor
+    - build
 
 variables:
-  DOCKER_REGISTRY: 500954975820.dkr.ecr.us-east-1.amazonaws.com/cursus-ecr-demo
+  DOCKER_REGISTRY: 500954975820.dkr.ecr.us-east-1.amazonaws.com
   AWS_DEFAULT_REGION: us-east-1
-  APP_NAME: views-api
-  DOCKER_HOST: tcp://docker:2375
+  APP_NAME: cursus-ecr-demo
 
 stages:
   - build_stage
@@ -17,6 +17,7 @@ build:
   stage: build_stage
   only:
     - master
+    - tags
   script:
     - apt-get update -y
     - apt-get install -y gettext wget git zip unzip
@@ -27,7 +28,8 @@ build:
     - php -r "unlink('composer-setup.php'); unlink('installer.sig');"
     - php composer.phar  install --no-dev
     - envsubst < config.php.dist > config.php
-    - mkdir build && cp -Rf . build/
+    - mkdir -p build
+    - cp ./index.php build/ && cp ./healthcheck.php build/ && cp ./Dockerfile build/ && cp -Rf ./lib build/ && cp -Rf ./ci build/ && cp -Rf ./specs build/ && cp -Rf ./vendor build/
   environment: 
     name: production
   artifacts:
@@ -36,17 +38,20 @@ build:
       - build
       
 deploy: 
-  image: docker:latest
   stage: deploy_stage
   artifacts:
     untracked: true
   only:
+    - master
     - tags
-  script:
-    - ls -lart build/
-    - cd build && docker build -t $DOCKER_REGISTRY/$APP_NAME:$CI_PIPELINE_IID .
-    - aws ecr get-login-password | docker login --username AWS --password-stdin $DOCKER_REGISTRY
-    - docker push $DOCKER_REGISTRY/$APP_NAME:$CI_PIPELINE_IID
   environment: 
     name: production
+  before_script:
+    - sudo apt-get install -y awscli
+    - aws --version
+    - docker --version
+  script:
+    - cd build && docker build -t $DOCKER_REGISTRY/$APP_NAME:$CI_PIPELINE_IID . 
+    - aws ecr get-login-password | docker login --username AWS --password-stdin $DOCKER_REGISTRY
+    - docker push $DOCKER_REGISTRY/$APP_NAME:$CI_PIPELINE_IID
   
